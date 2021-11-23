@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'nsu.oop.marketplace.server'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'nsu.oop.marketplace.inet:Marketplace_Inet:1.0-SNAKEINET'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest.attributes("Main-Class": "Main")
+    manifest.attributes("Class-Path": "Marketplace_Inet-1.0-SNAKEINET.jar")
+}
