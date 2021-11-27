@@ -17,7 +17,7 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
 
     public ServerCore(int port, int pingDelayMs, int nodeTimeOutMs){
         this.inet = new InetController(this,port,pingDelayMs,nodeTimeOutMs);
-        this.config = MarketplaceProto.SessionConfig.newBuilder().setNodeTimeoutMs(2000).setPingDelayMs(1000).build();
+        this.config = MarketplaceProto.SessionConfig.newBuilder().setNodeTimeoutMs(nodeTimeOutMs).setPingDelayMs(pingDelayMs).setServerPort(port).build();
         this.users = new UsersController(this, (InetForUsersController) inet);
         inet.attachUsers((UsersControllerForInet) users);
         this.dataBase = new DataBaseCore();
@@ -33,8 +33,10 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     @Override
     public int receiveJoinMsg(String name, String password, String ip, int port) {
         LogInData logInData = dataBase.logIn(name,password);
-        if(logInData.userId() != 0){
-            users.addUser(logInData.userId(), name, ip, port, logInData.userType());
+        int userId = logInData.userId();
+        MarketplaceProto.UserType type = logInData.userType();
+        if(userId != 0){
+            users.addUser(userId, name, ip, port, type);
             return logInData.userId();
         }
         return 0;
@@ -45,7 +47,13 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
         System.err.println("Receiver error-message from node number " + senderId + " Message: " + error);
     }
 
+
+
     //not used methods
+    @Override
+    public void showErrorAuthMessage() {
+
+    }
     @Override
     public void launchClientCore(int i, MarketplaceProto.UserType userType) {
 
