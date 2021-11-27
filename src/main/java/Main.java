@@ -1,8 +1,8 @@
-import nsu.oop.marketplace.server.Core;
+import nsu.oop.marketplace.server.ServerCore;
 
 public class Main {
     public static void main(String[] args) {
-        Core core = new Core();
-        System.out.println(core.configToString());
+        ServerCore serverCore = new ServerCore(1025,1000,2000);
+
     }
 }
