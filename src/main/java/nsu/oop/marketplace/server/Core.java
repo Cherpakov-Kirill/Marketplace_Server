@@ -6,13 +6,19 @@ import nsu.oop.marketplace.inet.InetControllerListener;
 import nsu.oop.marketplace.inet.MarketplaceProto;
 
 public class Core implements InetControllerListener {
-    private final Inet inet;
+    //private final Inet inet;
+    private final MarketplaceProto.SessionConfig config;
 
     public Core(){
-        this.inet = new InetController(this,1025,1000,2000);
+        //this.inet = new InetController(this,1025,1000,2000);
+        this.config = MarketplaceProto.SessionConfig.newBuilder().setNodeTimeoutMs(2000).setPingDelayMs(1000).build();
     }
 
-
+    public String configToString(){
+        String s = "Ping delay = " + config.getPingDelayMs();
+        s += "\nNode timout = " + config.getNodeTimeoutMs();
+        return s;
+    }
 
 
     @Override
