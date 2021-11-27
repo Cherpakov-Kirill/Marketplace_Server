@@ -21,6 +21,7 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
         this.users = new UsersController(this, (InetForUsersController) inet);
         inet.attachUsers((UsersControllerForInet) users);
         this.dataBase = new DataBaseCore();
+        inet.startUnicast();
         inet.startMulticastPublisher(0, config);
     }
 
