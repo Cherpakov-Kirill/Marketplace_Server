@@ -1,7 +1,5 @@
 /.idea/
-/build/classes/
-/build/extracted-include-protos/
-/build/extracted-protos/
-/build/generated/
-/build/publications/
-/build/tmp/
+/target/classes/
+/target/generated-sources/
+/target/maven-archiver/
+/target/maven-status/

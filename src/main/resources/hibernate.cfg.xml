@@ -1,27 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="connection.url">jdbc:mysql://localhost:3306/marketplace</property>
-    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/marketplace</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
-    <property name="connection.username">root</property>
-    <property name="connection.password">x1wxzuuh0383</property>
-    <property name="hibernate.hbm2ddl.auto">update</property>
-    <!-- <property name="connection.username"/> -->
-    <!-- <property name="connection.password"/> -->
+        <property name="connection.username">root</property>
+        <property name="connection.password">x1wxzuuh0383</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <!-- <property name="connection.username"/> -->
+        <!-- <property name="connection.password"/> -->
 
-    <mapping class="nsu.oop.marketplace.server.database.entity.ChangesEntity"/>
-    <mapping class="nsu.oop.marketplace.server.database.entity.LogHistoryEntity"/>
-    <mapping class="nsu.oop.marketplace.server.database.entity.LoginInfoEntity"/>
-    <mapping class="nsu.oop.marketplace.server.database.entity.ProductsEntity"/>
-    <mapping class="nsu.oop.marketplace.server.database.entity.SalesEntity"/>
-    <mapping class="nsu.oop.marketplace.server.database.entity.TasksEntity"/>
-    <mapping class="nsu.oop.marketplace.server.database.entity.UsersEntity"/>
-    <!-- DB schema will be updated if needed -->
-    <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
-  </session-factory>
+        <mapping class="nsu.oop.marketplace.server.database.entity.ChangesEntity"/>
+        <mapping class="nsu.oop.marketplace.server.database.entity.LogHistoryEntity"/>
+        <mapping class="nsu.oop.marketplace.server.database.entity.LoginInfoEntity"/>
+        <mapping class="nsu.oop.marketplace.server.database.entity.ProductsEntity"/>
+        <mapping class="nsu.oop.marketplace.server.database.entity.SalesEntity"/>
+        <mapping class="nsu.oop.marketplace.server.database.entity.TasksEntity"/>
+        <mapping class="nsu.oop.marketplace.server.database.entity.UsersEntity"/>
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+    </session-factory>
 </hibernate-configuration>
