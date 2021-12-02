@@ -1,4 +1,4 @@
-package nsu.oop.marketplace.server.utils;
+package nsu.oop.marketplace.server.database.utils;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

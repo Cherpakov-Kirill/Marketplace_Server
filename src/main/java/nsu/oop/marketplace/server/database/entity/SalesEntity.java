@@ -1,4 +1,4 @@
-package nsu.oop.marketplace.server.entity;
+package nsu.oop.marketplace.server.database.entity;
 
 import javax.persistence.*;
 import java.sql.Date;

@@ -1,10 +1,10 @@
-package nsu.oop.marketplace.server.entity;
+package nsu.oop.marketplace.server.database.entity;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "login_info", schema = "marketplace")
-public class LoginInfoEntity {
+@Table(name = "tasks", schema = "marketplace")
+public class TasksEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
@@ -13,11 +13,8 @@ public class LoginInfoEntity {
     @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     private int userId;
     @Basic
-    @Column(name = "login", nullable = false, length = 255)
-    private String login;
-    @Basic
-    @Column(name = "password", nullable = false, length = 255)
-    private String password;
+    @Column(name = "task_text", nullable = false, length = 255)
+    private String taskText;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsersEntity usersByUserId;
@@ -38,20 +35,12 @@ public class LoginInfoEntity {
         this.userId = userId;
     }
 
-    public String getLogin() {
-        return login;
+    public String getTaskText() {
+        return taskText;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setTaskText(String taskText) {
+        this.taskText = taskText;
     }
 
     public UsersEntity getUsersByUserId() {
