@@ -15,8 +15,8 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     private final Users users;
     private final DataBase dataBase;
 
-    public ServerCore(int port, int pingDelayMs, int nodeTimeOutMs){
-        this.inet = new InetController(this,port,pingDelayMs,nodeTimeOutMs);
+    public ServerCore(int port, int pingDelayMs, int nodeTimeOutMs) {
+        this.inet = new InetController(this, port, pingDelayMs, nodeTimeOutMs);
         this.config = MarketplaceProto.SessionConfig.newBuilder().setNodeTimeoutMs(nodeTimeOutMs).setPingDelayMs(pingDelayMs).setServerPort(port).build();
         this.users = new UsersController(this, (InetForUsersController) inet);
         inet.attachUsers((UsersControllerForInet) users);
@@ -25,17 +25,17 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
         inet.startMulticastPublisher(0, config);
     }
 
-    public void interrupt(){
+    public void interrupt() {
         inet.stopMulticastPublisher();
         inet.interruptUnicast();
     }
 
     @Override
     public int receiveJoinMsg(String name, String password, String ip, int port) {
-        LogInData logInData = dataBase.logIn(name,password);
+        LogInData logInData = dataBase.logIn(name, password);
         int userId = logInData.userId();
         MarketplaceProto.UserType type = logInData.userType();
-        if(userId != 0){
+        if (userId != 0) {
             users.addUser(userId, name, ip, port, type);
             return logInData.userId();
         }
@@ -48,16 +48,17 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     }
 
 
-
     //not used methods
     @Override
     public void showErrorAuthMessage() {
 
     }
+
     @Override
     public void launchClientCore(int i, MarketplaceProto.UserType userType) {
 
     }
+
     @Override
     public void receiveAnnouncementMsg(MarketplaceProto.Message.AnnouncementMsg announcementMsg, String s, int i) {
         //nothing, because this is server
@@ -65,3 +66,4 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
 
 
 }
+

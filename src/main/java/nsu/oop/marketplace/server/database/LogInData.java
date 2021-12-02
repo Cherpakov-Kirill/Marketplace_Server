@@ -4,3 +4,4 @@ import nsu.oop.marketplace.inet.MarketplaceProto;
 
 public record LogInData(int userId, MarketplaceProto.UserType userType) {
 }
+
