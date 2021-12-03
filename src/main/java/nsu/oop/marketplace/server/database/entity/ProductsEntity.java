@@ -4,26 +4,18 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "products", schema = "marketplace")
+@Table(name = "products", schema = "marketplace_db")
 public class ProductsEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+
     private int id;
-    @Basic
-    @Column(name = "name", nullable = false, length = 255)
     private String name;
-    @Basic
-    @Column(name = "price", nullable = false, precision = 4)
     private double price;
-    @Basic
-    @Column(name = "description", nullable = false, length = 255)
     private String description;
-    @OneToMany(mappedBy = "productsByProductId")
     private Collection<ChangesEntity> changesById;
-    @OneToMany(mappedBy = "productsByProductId")
     private Collection<SalesEntity> salesById;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -32,6 +24,8 @@ public class ProductsEntity {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "name", nullable = false, length = 255)
     public String getName() {
         return name;
     }
@@ -40,6 +34,8 @@ public class ProductsEntity {
         this.name = name;
     }
 
+    @Basic
+    @Column(name = "price", nullable = false, precision = 4)
     public double getPrice() {
         return price;
     }
@@ -48,6 +44,8 @@ public class ProductsEntity {
         this.price = price;
     }
 
+    @Basic
+    @Column(name = "description", nullable = false, length = 255)
     public String getDescription() {
         return description;
     }
@@ -56,6 +54,7 @@ public class ProductsEntity {
         this.description = description;
     }
 
+    @OneToMany(targetEntity = ChangesEntity.class, mappedBy = "productsByProductId", fetch = FetchType.LAZY)
     public Collection<ChangesEntity> getChangesById() {
         return changesById;
     }
@@ -64,11 +63,17 @@ public class ProductsEntity {
         this.changesById = changesById;
     }
 
+    @OneToMany(targetEntity = SalesEntity.class, mappedBy = "productsByProductId", fetch = FetchType.LAZY)
     public Collection<SalesEntity> getSalesById() {
         return salesById;
     }
 
     public void setSalesById(Collection<SalesEntity> salesById) {
         this.salesById = salesById;
+    }
+
+    @Override
+    public String toString(){
+        return id + " - " + name + " - " + price + " - " + description + "-";
     }
 }

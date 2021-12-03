@@ -1,31 +1,20 @@
 package nsu.oop.marketplace.server.database.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
-@Table(name = "sales", schema = "marketplace")
+@Table(name = "sales", schema = "marketplace_db")
 public class SalesEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+
     private int id;
-    @Basic
-    @Column(name = "product_id", nullable = false, insertable = false, updatable = false)
-    private int productId;
-    @Basic
-    @Column(name = "date", nullable = false)
     private Date date;
-    @Basic
-    @Column(name = "quantity", nullable = false)
     private int quantity;
-    @Basic
-    @Column(name = "amount", nullable = false, precision = 4)
     private double amount;
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private ProductsEntity productsByProductId;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -34,14 +23,8 @@ public class SalesEntity {
         this.id = id;
     }
 
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date", nullable = false)
     public Date getDate() {
         return date;
     }
@@ -50,6 +33,8 @@ public class SalesEntity {
         this.date = date;
     }
 
+    @Basic
+    @Column(name = "quantity", nullable = false)
     public int getQuantity() {
         return quantity;
     }
@@ -58,6 +43,8 @@ public class SalesEntity {
         this.quantity = quantity;
     }
 
+    @Basic
+    @Column(name = "amount", nullable = false, precision = 4)
     public double getAmount() {
         return amount;
     }
@@ -66,11 +53,18 @@ public class SalesEntity {
         this.amount = amount;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     public ProductsEntity getProductsByProductId() {
         return productsByProductId;
     }
 
     public void setProductsByProductId(ProductsEntity productsByProductId) {
         this.productsByProductId = productsByProductId;
+    }
+
+    @Override
+    public String toString() {
+        return id + " - " + productsByProductId.getName() + " - " + date + " - " + quantity + " - " + amount + " - ";
     }
 }

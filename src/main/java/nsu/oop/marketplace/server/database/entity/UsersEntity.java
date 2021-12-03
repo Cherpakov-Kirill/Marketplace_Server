@@ -4,30 +4,23 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "users", schema = "marketplace")
+@Table(name = "users", schema = "marketplace_db")
 public class UsersEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
     private int id;
-    @Basic
-    @Column(name = "first_name", nullable = false, length = 255)
     private String firstName;
-    @Basic
-    @Column(name = "last_name", nullable = false, length = 255)
     private String lastName;
-    @Basic
-    @Column(name = "role", nullable = false, length = 255)
     private String role;
-    @OneToMany(mappedBy = "usersByUserId")
+
     private Collection<ChangesEntity> changesById;
-    @OneToMany(mappedBy = "usersByUserId")
+
     private Collection<LogHistoryEntity> logHistoriesById;
-    @OneToMany(mappedBy = "usersByUserId")
+
     private Collection<LoginInfoEntity> loginInfosById;
-    @OneToMany(mappedBy = "usersByUserId")
+
     private Collection<TasksEntity> tasksById;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -36,6 +29,8 @@ public class UsersEntity {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "first_name", nullable = false, length = 255)
     public String getFirstName() {
         return firstName;
     }
@@ -44,6 +39,8 @@ public class UsersEntity {
         this.firstName = firstName;
     }
 
+    @Basic
+    @Column(name = "last_name", nullable = false, length = 255)
     public String getLastName() {
         return lastName;
     }
@@ -52,6 +49,8 @@ public class UsersEntity {
         this.lastName = lastName;
     }
 
+    @Basic
+    @Column(name = "role", nullable = false, length = 255)
     public String getRole() {
         return role;
     }
@@ -60,6 +59,7 @@ public class UsersEntity {
         this.role = role;
     }
 
+    @OneToMany(targetEntity = ChangesEntity.class, mappedBy = "usersByUserId", fetch=FetchType.LAZY)
     public Collection<ChangesEntity> getChangesById() {
         return changesById;
     }
@@ -68,6 +68,7 @@ public class UsersEntity {
         this.changesById = changesById;
     }
 
+    @OneToMany(targetEntity = LogHistoryEntity.class, mappedBy = "usersByUserId", fetch=FetchType.LAZY)
     public Collection<LogHistoryEntity> getLogHistoriesById() {
         return logHistoriesById;
     }
@@ -76,6 +77,7 @@ public class UsersEntity {
         this.logHistoriesById = logHistoriesById;
     }
 
+    @OneToMany(targetEntity = LoginInfoEntity.class, mappedBy = "usersByUserId", fetch=FetchType.LAZY)
     public Collection<LoginInfoEntity> getLoginInfosById() {
         return loginInfosById;
     }
@@ -84,11 +86,17 @@ public class UsersEntity {
         this.loginInfosById = loginInfosById;
     }
 
+    @OneToMany(targetEntity = TasksEntity.class, mappedBy = "usersByUserId", fetch=FetchType.LAZY)
     public Collection<TasksEntity> getTasksById() {
         return tasksById;
     }
 
     public void setTasksById(Collection<TasksEntity> tasksById) {
         this.tasksById = tasksById;
+    }
+
+    @Override
+    public String toString(){
+        return id + " - " + firstName + " - " + lastName + " - " + role + "-";
     }
 }
