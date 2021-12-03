@@ -39,11 +39,8 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
         LogInData logInData = dataBase.logIn(name, password);
         int userId = logInData.userId();
         MarketplaceProto.UserType type = logInData.userType();
-        if (userId != 0) {
-            users.addUser(userId, name, ip, port, type);
-            return logInData.userId();
-        }
-        return 0;
+        users.addUser(userId, name, ip, port, type);
+        return userId;
     }
 
     @Override
