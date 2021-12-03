@@ -10,14 +10,14 @@ public class DataBaseCore implements DataBase {
         //I want request like: SELECT userId, userType FROM UsersTable WHERE username=name AND userPass=password
 
         switch (name) {
-            case "Nikita" -> {
-                if (Objects.equals(password, "1111")) return new LogInData(1, MarketplaceProto.UserType.DIRECTOR);
+            case "Kirill" -> {
+                if (Objects.equals(password, "0000")) return new LogInData(1, MarketplaceProto.UserType.DIRECTOR);
             }
             case "Kolya" -> {
-                if (Objects.equals(password, "2222")) return new LogInData(1, MarketplaceProto.UserType.MANAGER);
+                if (Objects.equals(password, "2222")) return new LogInData(2, MarketplaceProto.UserType.MANAGER);
             }
             case "Petya" -> {
-                if (Objects.equals(password, "3333")) return new LogInData(1, MarketplaceProto.UserType.ADMINISTRATOR);
+                if (Objects.equals(password, "3333")) return new LogInData(3, MarketplaceProto.UserType.ADMINISTRATOR);
             }
         }
         return new LogInData(0, MarketplaceProto.UserType.UNAUTHENTICATED);
