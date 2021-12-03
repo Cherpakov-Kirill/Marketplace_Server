@@ -18,7 +18,7 @@
         <dependency>
             <groupId>nsu.oop.marketplace.inet</groupId>
             <artifactId>Marketplace_Inet</artifactId>
-            <version>1.4-MARKETPLACEINET</version>
+            <version>1.9-MARKETPLACEINET</version>
         </dependency>
 
         <!--driver for connection to MYSql database -->
@@ -89,8 +89,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
             <plugin>

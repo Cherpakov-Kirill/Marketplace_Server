@@ -1,6 +1,8 @@
+import nsu.oop.marketplace.server.ServerCore;
+
 public class Main {
     public static void main(String[] args) {
-//        ServerCore serverCore = new ServerCore(1025, 1000, 2000);
+        ServerCore serverCore = new ServerCore(1025, 1000, 2000);
 
 //        Session session = HibernateSessionFactory.getSessionFactory().openSession();
 //
@@ -16,5 +18,7 @@ public class Main {
 //        session.getTransaction().commit();
 //
 //        session.close();
+
+
     }
 }
