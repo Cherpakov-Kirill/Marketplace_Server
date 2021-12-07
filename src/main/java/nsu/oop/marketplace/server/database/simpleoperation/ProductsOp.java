@@ -1,7 +1,6 @@
 package nsu.oop.marketplace.server.database.simpleoperation;
 
 import nsu.oop.marketplace.server.database.entity.ProductsEntity;
-import nsu.oop.marketplace.server.database.entity.UsersEntity;
 import nsu.oop.marketplace.server.database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
@@ -35,7 +34,7 @@ public class ProductsOp {
         query.addEntity(ProductsEntity.class);
         products = query.list();
 
-        System.out.println("Simple query from table products");
+        System.out.println("____________Simple query from table products____________");
         for (ProductsEntity product : products) {
             System.out.println(product.toString());
         }
@@ -43,7 +42,27 @@ public class ProductsOp {
         session.close();
     }
 
-    public static void updateUser(){
+    public static ProductsEntity getProductById(int id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        List<ProductsEntity> products;
+
+        NativeQuery query = session.createSQLQuery("SELECT * FROM products WHERE id = '" + id + "'");
+        query.addEntity(ProductsEntity.class);
+        products = query.list();
+
+        session.close();
+
+        if (products.size() == 0) {
+            ProductsEntity product = new ProductsEntity();
+            product.setId(-1);
+            return product;
+        }
+
+        return products.get(0);
+    }
+
+    public static void updateUser() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();

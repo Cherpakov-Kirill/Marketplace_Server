@@ -10,16 +10,12 @@ import java.util.List;
 
 public class LogInInfoOp {
 
-    public static void addNewUserInfo(int userId, String firstName, String lastName, String role, String login, String password) {
+    public static void addNewUserInfo(int userId, String login, String password) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
 
-        UsersEntity user = new UsersEntity();
-        user.setId(userId);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setRole(role);
+        UsersEntity user = UserOp.getUserById(userId);
 
         LoginInfoEntity logInfo = new LoginInfoEntity();
         logInfo.setLogin(login);
@@ -32,7 +28,7 @@ public class LogInInfoOp {
         session.close();
     }
 
-    public static List<LoginInfoEntity> getUserByName(String login) {
+    public static LoginInfoEntity getUserByName(String login) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<LoginInfoEntity> users;
@@ -43,8 +39,29 @@ public class LogInInfoOp {
 
         session.close();
 
-        return users;
+        if (users.size() == 0) {
+            LoginInfoEntity logInfo = new LoginInfoEntity();
+            logInfo.setId(-1);
+            return logInfo;
+        }
+        return users.get(0);
     }
 
+    public static void getQuery() {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        List<LoginInfoEntity> users;
+
+        NativeQuery query = session.createSQLQuery("SELECT * FROM login_info");
+        query.addEntity(LoginInfoEntity.class);
+        users = query.list();
+
+        System.out.println("____________Simple query from table login_info____________");
+        for (LoginInfoEntity login : users) {
+            System.out.println(login.toString());
+        }
+
+        session.close();
+    }
 
 }

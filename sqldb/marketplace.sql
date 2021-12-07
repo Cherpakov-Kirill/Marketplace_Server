@@ -33,7 +33,7 @@ CREATE TABLE `changes` (
   KEY `changes_user_id_users_id_foreign` (`user_id`),
   CONSTRAINT `changes_product_id_products_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `changes_user_id_users_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `changes` (
 
 LOCK TABLES `changes` WRITE;
 /*!40000 ALTER TABLE `changes` DISABLE KEYS */;
+INSERT INTO `changes` VALUES (1,2,'Change price','26.12',1),(2,3,'Change name','Big Furminator',3);
 /*!40000 ALTER TABLE `changes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ CREATE TABLE `log_history` (
   PRIMARY KEY (`id`),
   KEY `log_history_user_id_users_id_foreign` (`user_id`),
   CONSTRAINT `log_history_user_id_users_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +70,7 @@ CREATE TABLE `log_history` (
 
 LOCK TABLES `log_history` WRITE;
 /*!40000 ALTER TABLE `log_history` DISABLE KEYS */;
+INSERT INTO `log_history` VALUES (1,1,'Add new product(Furminator)','Add');
 /*!40000 ALTER TABLE `log_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,7 +89,7 @@ CREATE TABLE `login_info` (
   PRIMARY KEY (`id`),
   KEY `login_info_column_2_users_id_foreign` (`user_id`),
   CONSTRAINT `login_info_column_2_users_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +98,7 @@ CREATE TABLE `login_info` (
 
 LOCK TABLES `login_info` WRITE;
 /*!40000 ALTER TABLE `login_info` DISABLE KEYS */;
-INSERT INTO `login_info` VALUES (1,1,'Dementor','qwerty123');
+INSERT INTO `login_info` VALUES (1,1,'Dementor','qwerty123'),(2,2,'Kirill','1234'),(3,3,'Dashka','meleshenko');
 /*!40000 ALTER TABLE `login_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +144,7 @@ CREATE TABLE `sales` (
   PRIMARY KEY (`id`),
   KEY `sales_product_id_products_id_foreign` (`product_id`),
   CONSTRAINT `sales_product_id_products_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +153,7 @@ CREATE TABLE `sales` (
 
 LOCK TABLES `sales` WRITE;
 /*!40000 ALTER TABLE `sales` DISABLE KEYS */;
-INSERT INTO `sales` VALUES (1,1,'2021-12-04',10,101.0000),(2,2,'2021-12-04',35,131.6000),(4,1,'2021-12-04',80,808.0000);
+INSERT INTO `sales` VALUES (1,1,'2021-12-04',10,101.0000),(2,2,'2021-12-04',35,131.6000),(4,1,'2021-12-04',80,808.0000),(5,3,'2021-12-07',25,397.2500);
 /*!40000 ALTER TABLE `sales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,4 +219,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-07  9:18:29
+-- Dump completed on 2021-12-07 17:39:41

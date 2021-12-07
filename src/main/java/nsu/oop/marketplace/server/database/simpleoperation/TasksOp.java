@@ -43,7 +43,7 @@ public class TasksOp {
         query.addEntity(TasksEntity.class);
         tasks = query.list();
 
-        System.out.println("Simple query from table tasks");
+        System.out.println("____________Simple query from table tasks____________");
         for (TasksEntity task : tasks) {
             System.out.println(task.toString());
         }

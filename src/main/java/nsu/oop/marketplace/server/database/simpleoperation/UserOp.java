@@ -35,7 +35,7 @@ public class UserOp {
         query.addEntity(UsersEntity.class);
         users = query.list();
 
-        System.out.println("Simple query from table users");
+        System.out.println("____________Simple query from table users____________");
         for (UsersEntity user : users) {
             System.out.println(user.toString());
         }
@@ -43,7 +43,7 @@ public class UserOp {
         session.close();
     }
 
-    public static List<UsersEntity> getUserById(int id) {
+    public static UsersEntity getUserById(int id) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<UsersEntity> users;
@@ -59,7 +59,13 @@ public class UserOp {
 
         session.close();
 
-        return users;
+        if(users.size() == 0) {
+            UsersEntity usersEntity = new UsersEntity();
+            usersEntity.setId(-1);
+            return usersEntity;
+        }
+
+        return users.get(0);
     }
 
     public static void updateUser() {
