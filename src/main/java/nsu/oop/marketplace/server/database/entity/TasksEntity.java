@@ -3,22 +3,15 @@ package nsu.oop.marketplace.server.database.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tasks", schema = "marketplace")
+@Table(name = "tasks", schema = "marketplace_db")
 public class TasksEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+
     private int id;
-    @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    private int userId;
-    @Basic
-    @Column(name = "task_text", nullable = false, length = 255)
     private String taskText;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsersEntity usersByUserId;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -27,14 +20,8 @@ public class TasksEntity {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
+    @Basic
+    @Column(name = "task_text", nullable = false, length = 255)
     public String getTaskText() {
         return taskText;
     }
@@ -43,11 +30,18 @@ public class TasksEntity {
         this.taskText = taskText;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
     }
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Override
+    public String toString(){
+        return id + " - " + taskText + " - " + usersByUserId.getFirstName() + " - " + usersByUserId.getLastName() + " - ";
     }
 }

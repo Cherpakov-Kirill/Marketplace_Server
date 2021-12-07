@@ -3,25 +3,17 @@ package nsu.oop.marketplace.server.database.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "log_history", schema = "marketplace")
+@Table(name = "log_history", schema = "marketplace_db")
 public class LogHistoryEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+
     private int id;
-    @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     private int userId;
-    @Basic
-    @Column(name = "log_description", nullable = false, length = 255)
     private String logDescription;
-    @Basic
-    @Column(name = "action_type", nullable = false, length = 255)
     private String actionType;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsersEntity usersByUserId;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -30,6 +22,8 @@ public class LogHistoryEntity {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     public int getUserId() {
         return userId;
     }
@@ -38,6 +32,8 @@ public class LogHistoryEntity {
         this.userId = userId;
     }
 
+    @Basic
+    @Column(name = "log_description", nullable = false, length = 255)
     public String getLogDescription() {
         return logDescription;
     }
@@ -46,6 +42,8 @@ public class LogHistoryEntity {
         this.logDescription = logDescription;
     }
 
+    @Basic
+    @Column(name = "action_type", nullable = false, length = 255)
     public String getActionType() {
         return actionType;
     }
@@ -54,6 +52,8 @@ public class LogHistoryEntity {
         this.actionType = actionType;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
     }

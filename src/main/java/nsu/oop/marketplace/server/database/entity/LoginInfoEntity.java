@@ -3,25 +3,17 @@ package nsu.oop.marketplace.server.database.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "login_info", schema = "marketplace")
+@Table(name = "login_info", schema = "marketplace_db")
 public class LoginInfoEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+
     private int id;
-    @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     private int userId;
-    @Basic
-    @Column(name = "login", nullable = false, length = 255)
     private String login;
-    @Basic
-    @Column(name = "password", nullable = false, length = 255)
     private String password;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsersEntity usersByUserId;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -30,14 +22,8 @@ public class LoginInfoEntity {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
+    @Basic
+    @Column(name = "login", nullable = false, length = 255)
     public String getLogin() {
         return login;
     }
@@ -46,6 +32,8 @@ public class LoginInfoEntity {
         this.login = login;
     }
 
+    @Basic
+    @Column(name = "password", nullable = false, length = 255)
     public String getPassword() {
         return password;
     }
@@ -54,6 +42,8 @@ public class LoginInfoEntity {
         this.password = password;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
     }

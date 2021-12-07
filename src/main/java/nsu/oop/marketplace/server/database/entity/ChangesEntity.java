@@ -3,31 +3,19 @@ package nsu.oop.marketplace.server.database.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "changes", schema = "marketplace")
+@Table(name = "changes", schema = "marketplace_db")
 public class ChangesEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+
     private int id;
-    @Basic
-    @Column(name = "product_id", nullable = false, insertable = false, updatable = false)
     private int productId;
-    @Basic
-    @Column(name = "change_type", nullable = false, length = 255)
     private String changeType;
-    @Basic
-    @Column(name = "new_value", nullable = false, length = 255)
     private String newValue;
-    @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     private int userId;
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private ProductsEntity productsByProductId;
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private UsersEntity usersByUserId;
 
+    @Id
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -36,6 +24,8 @@ public class ChangesEntity {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "product_id", nullable = false, insertable = false, updatable = false)
     public int getProductId() {
         return productId;
     }
@@ -44,6 +34,8 @@ public class ChangesEntity {
         this.productId = productId;
     }
 
+    @Basic
+    @Column(name = "change_type", nullable = false, length = 255)
     public String getChangeType() {
         return changeType;
     }
@@ -52,6 +44,8 @@ public class ChangesEntity {
         this.changeType = changeType;
     }
 
+    @Basic
+    @Column(name = "new_value", nullable = false, length = 255)
     public String getNewValue() {
         return newValue;
     }
@@ -60,6 +54,8 @@ public class ChangesEntity {
         this.newValue = newValue;
     }
 
+    @Basic
+    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
     public int getUserId() {
         return userId;
     }
@@ -68,6 +64,8 @@ public class ChangesEntity {
         this.userId = userId;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     public ProductsEntity getProductsByProductId() {
         return productsByProductId;
     }
@@ -76,6 +74,8 @@ public class ChangesEntity {
         this.productsByProductId = productsByProductId;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
     }
