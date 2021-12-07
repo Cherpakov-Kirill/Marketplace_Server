@@ -42,7 +42,7 @@ public class LoginInfoEntity {
         this.password = password;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
@@ -50,5 +50,10 @@ public class LoginInfoEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Override
+    public String toString() {
+        return usersByUserId.getFirstName() + " - " + usersByUserId.getLastName() + " - " + login + " - " + password + " - ";
     }
 }

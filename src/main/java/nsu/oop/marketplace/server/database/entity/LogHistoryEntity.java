@@ -23,16 +23,6 @@ public class LogHistoryEntity {
     }
 
     @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    @Basic
     @Column(name = "log_description", nullable = false, length = 255)
     public String getLogDescription() {
         return logDescription;
@@ -52,7 +42,7 @@ public class LogHistoryEntity {
         this.actionType = actionType;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
@@ -60,5 +50,10 @@ public class LogHistoryEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Override
+    public String toString() {
+        return usersByUserId.getFirstName() + " - " + usersByUserId.getLastName() + " - " + logDescription + " - " + actionType + " - ";
     }
 }

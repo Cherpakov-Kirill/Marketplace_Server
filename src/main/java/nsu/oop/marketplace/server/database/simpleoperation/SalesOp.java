@@ -2,7 +2,6 @@ package nsu.oop.marketplace.server.database.simpleoperation;
 
 import nsu.oop.marketplace.server.database.entity.ProductsEntity;
 import nsu.oop.marketplace.server.database.entity.SalesEntity;
-import nsu.oop.marketplace.server.database.entity.UsersEntity;
 import nsu.oop.marketplace.server.database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
@@ -12,20 +11,16 @@ import java.util.List;
 
 public class SalesOp {
 
-    public static void addNewSale(String productName, int productId, String productDesc, double productPrice, int quantity) {
+    public static void addNewSale(int productId, int quantity) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
-        ProductsEntity product = new ProductsEntity();
-        product.setId(productId);
-        product.setName(productName);
-        product.setDescription(productDesc);
-        product.setPrice(productPrice);
+        ProductsEntity product = ProductsOp.getProductById(productId);
 
         session.beginTransaction();
 
         SalesEntity sale = new SalesEntity();
         sale.setProductsByProductId(product);
-        sale.setAmount(productPrice * quantity);
+        sale.setAmount(product.getPrice() * quantity);
         sale.setQuantity(quantity);
         sale.setDate(new Date());
 
@@ -35,7 +30,7 @@ public class SalesOp {
         session.close();
     }
 
-    public static void getQuery(){
+    public static void getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<SalesEntity> sales;
@@ -44,7 +39,7 @@ public class SalesOp {
         query.addEntity(SalesEntity.class);
         sales = query.list();
 
-        System.out.println("Simple query from table sales");
+        System.out.println("____________Simple query from table sales____________");
         for (SalesEntity sale : sales) {
             System.out.println(sale.toString());
         }

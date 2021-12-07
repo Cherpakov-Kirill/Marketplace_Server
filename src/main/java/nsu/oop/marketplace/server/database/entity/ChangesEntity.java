@@ -7,10 +7,8 @@ import javax.persistence.*;
 public class ChangesEntity {
 
     private int id;
-    private int productId;
     private String changeType;
     private String newValue;
-    private int userId;
     private ProductsEntity productsByProductId;
     private UsersEntity usersByUserId;
 
@@ -22,16 +20,6 @@ public class ChangesEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "product_id", nullable = false, insertable = false, updatable = false)
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
     }
 
     @Basic
@@ -54,17 +42,7 @@ public class ChangesEntity {
         this.newValue = newValue;
     }
 
-    @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     public ProductsEntity getProductsByProductId() {
         return productsByProductId;
@@ -74,7 +52,7 @@ public class ChangesEntity {
         this.productsByProductId = productsByProductId;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
@@ -82,5 +60,10 @@ public class ChangesEntity {
 
     public void setUsersByUserId(UsersEntity usersByUserId) {
         this.usersByUserId = usersByUserId;
+    }
+
+    @Override
+    public String toString() {
+        return usersByUserId.getFirstName() + " - " + productsByProductId.getName() + " - " + changeType + " - " + newValue + " - ";
     }
 }
