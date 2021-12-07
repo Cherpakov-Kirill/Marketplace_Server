@@ -23,16 +23,6 @@ public class LoginInfoEntity {
     }
 
     @Basic
-    @Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    @Basic
     @Column(name = "login", nullable = false, length = 255)
     public String getLogin() {
         return login;
@@ -53,7 +43,7 @@ public class LoginInfoEntity {
     }
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
     public UsersEntity getUsersByUserId() {
         return usersByUserId;
     }
