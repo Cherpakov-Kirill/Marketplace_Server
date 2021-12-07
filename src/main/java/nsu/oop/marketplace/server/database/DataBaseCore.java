@@ -1,36 +1,46 @@
 package nsu.oop.marketplace.server.database;
 
 import nsu.oop.marketplace.inet.MarketplaceProto;
+import nsu.oop.marketplace.server.database.entity.LoginInfoEntity;
+import nsu.oop.marketplace.server.database.entity.UsersEntity;
+import nsu.oop.marketplace.server.database.simpleoperation.LogInInfoOp;
+import nsu.oop.marketplace.server.database.simpleoperation.UserOp;
 
-import java.util.Objects;
+import java.util.List;
 
 public class DataBaseCore implements DataBase {
     private int nonAuthenticatedUserNumber;
-    public DataBaseCore(){
+
+    public DataBaseCore() {
         nonAuthenticatedUserNumber = 0;
     }
 
-    private int getNonAuthUserId(){
+    private int getNonAuthUserId() {
         nonAuthenticatedUserNumber++;
-        return (-1)*nonAuthenticatedUserNumber;
+        return (-1) * nonAuthenticatedUserNumber;
     }
+
     @Override
     public LogInData logIn(String name, String password) {
-        //I want request like: SELECT userId, userType FROM UsersTable WHERE username=name AND userPass=password
 
-        switch (name) {
-            case "Kirill" -> {
-                if (Objects.equals(password, "0000")) return new LogInData(1, MarketplaceProto.UserType.DIRECTOR);
-            }
-            case "Kolya" -> {
-                if (Objects.equals(password, "2222")) return new LogInData(2, MarketplaceProto.UserType.MANAGER);
-            }
-            case "Petya" -> {
-                if (Objects.equals(password, "3333")) return new LogInData(3, MarketplaceProto.UserType.ADMINISTRATOR);
-            }
+        List<LoginInfoEntity> users = LogInInfoOp.getUserByName(name);
+        if (users.size() == 0) {
+            return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED);
         }
-        //if db got result that this user is unauthenticated this method must return data with getNonAuthUserId().
-        //getNonAuthUserId is number of non-authenticated users in this session.
+        LoginInfoEntity user = users.get(0);
+
+        if (user.getPassword().equals(password)) {
+            MarketplaceProto.UserType userRole = null;
+            List<UsersEntity> usersInfo = UserOp.getUserById(user.getId());
+            UsersEntity userInfo = usersInfo.get(0);
+            switch (userInfo.getRole()) {
+                case "Director" -> userRole = MarketplaceProto.UserType.DIRECTOR;
+                case "Admin" -> userRole = MarketplaceProto.UserType.ADMINISTRATOR;
+                case "Manager" -> userRole = MarketplaceProto.UserType.MANAGER;
+            }
+            return new LogInData(user.getUsersByUserId().getId(), userRole);
+        }
+
         return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED);
     }
 }

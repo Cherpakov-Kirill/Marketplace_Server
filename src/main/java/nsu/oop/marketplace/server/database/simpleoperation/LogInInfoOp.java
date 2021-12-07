@@ -4,10 +4,13 @@ import nsu.oop.marketplace.server.database.entity.LoginInfoEntity;
 import nsu.oop.marketplace.server.database.entity.UsersEntity;
 import nsu.oop.marketplace.server.database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+
+import java.util.List;
 
 public class LogInInfoOp {
 
-    public static void addNewUser(int userId, String firstName, String lastName, String role, String login, String password) {
+    public static void addNewUserInfo(int userId, String firstName, String lastName, String role, String login, String password) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
@@ -28,5 +31,20 @@ public class LogInInfoOp {
 
         session.close();
     }
+
+    public static List<LoginInfoEntity> getUserByName(String login) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        List<LoginInfoEntity> users;
+
+        NativeQuery query = session.createSQLQuery("SELECT * FROM login_info WHERE login = '" + login + "'");
+        query.addEntity(LoginInfoEntity.class);
+        users = query.list();
+
+        session.close();
+
+        return users;
+    }
+
 
 }

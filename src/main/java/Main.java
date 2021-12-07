@@ -1,3 +1,4 @@
+import nsu.oop.marketplace.server.ServerCore;
 import nsu.oop.marketplace.server.database.simpleoperation.*;
 
 public class Main {
@@ -8,7 +9,6 @@ public class Main {
         TasksOp.getQuery();
         ProductsOp.getQuery();
         SalesOp.getQuery();
-        LogInInfoOp.addNewUser(1,"Dmitry", "Kogalenok", "Director", "Dementor", "qwerty123");
 
     }
 }

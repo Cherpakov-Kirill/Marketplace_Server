@@ -1,5 +1,6 @@
 package nsu.oop.marketplace.server.database.simpleoperation;
 
+import nsu.oop.marketplace.server.database.entity.LoginInfoEntity;
 import nsu.oop.marketplace.server.database.entity.UsersEntity;
 import nsu.oop.marketplace.server.database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class UserOp {
 
-    public static void addNewUser(String firstName, String lastName, String role){
+    public static void addNewUser(String firstName, String lastName, String role) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
@@ -25,7 +26,7 @@ public class UserOp {
         session.close();
     }
 
-    public static void getQuery(){
+    public static void getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<UsersEntity> users;
@@ -42,7 +43,26 @@ public class UserOp {
         session.close();
     }
 
-    public static void updateUser(){
+    public static List<UsersEntity> getUserById(int id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        List<UsersEntity> users;
+
+        NativeQuery query = session.createSQLQuery("SELECT * FROM users WHERE id = '" + id + "'");
+        query.addEntity(UsersEntity.class);
+        users = query.list();
+
+        System.out.println("Get user by user id: " + id);
+        for (UsersEntity user : users) {
+            System.out.println(user.toString());
+        }
+
+        session.close();
+
+        return users;
+    }
+
+    public static void updateUser() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
