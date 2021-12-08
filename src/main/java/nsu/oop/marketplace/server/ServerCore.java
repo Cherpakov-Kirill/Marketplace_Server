@@ -35,11 +35,11 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     }
 
     @Override
-    public int receiveJoinMsg(String name, String password, String ip, int port) {
-        LogInData logInData = dataBase.logIn(name, password);
+    public int receiveJoinMsg(String username, String password, String ip, int port) {
+        LogInData logInData = dataBase.logIn(username, password);
         int userId = logInData.userId();
         MarketplaceProto.UserType type = logInData.userType();
-        users.addUser(userId, name, ip, port, type);
+        users.addUser(userId, username, ip, port, type, logInData.firstName(), logInData.secondName());
         return userId;
     }
 
@@ -72,7 +72,8 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     }
 
     @Override
-    public void launchClientCore(int i, MarketplaceProto.UserType userType) {
+    public void receiveUserInfoMsg(int i, MarketplaceProto.UserType userType, String s, String s1) {
+
     }
 
     @Override

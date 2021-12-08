@@ -23,7 +23,7 @@ public class DataBaseCore implements DataBase {
 
         LoginInfoEntity user = LogInInfoOp.getUserByName(name);
         if (user.getId() == -1) {
-            return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED);
+            return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED, "Unknown", "Unknown");
         }
 
         if (user.getPassword().equals(password)) {
@@ -33,9 +33,9 @@ public class DataBaseCore implements DataBase {
                 case "Admin" -> userRole = MarketplaceProto.UserType.ADMINISTRATOR;
                 case "Manager" -> userRole = MarketplaceProto.UserType.MANAGER;
             }
-            return new LogInData(user.getUsersByUserId().getId(), userRole);
+            return new LogInData(user.getUsersByUserId().getId(), userRole,"Vasya", "Pupkin");
         }
 
-        return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED);
+        return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED, "Unknown", "Unknown");
     }
 }
