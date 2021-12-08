@@ -56,6 +56,15 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     }
 
     @Override
+    public void receiveDBRequestMsg(MarketplaceProto.Message.DBRequest dbRequest, int id) {
+        MarketplaceProto.Message.DBResponse response = null;
+        switch (dbRequest.getTypeCase()) {
+            case PRODUCT_TABLE -> response = dataBase.getAllProductTable();
+        }
+        if(response != null) users.sendDBResponseMessage(response, id);
+    }
+
+    @Override
     public void notifyCoreAboutDisconnect(int id) {
         chatCore.removeUser(id);
         chatCore.broadcastUserList();
@@ -67,6 +76,11 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
     }
 
     //not used methods
+    @Override
+    public void receiveDBResponseMsg(MarketplaceProto.Message.DBResponse dbResponse, int i) {
+
+    }
+
     @Override
     public void showErrorAuthMessage() {
     }
