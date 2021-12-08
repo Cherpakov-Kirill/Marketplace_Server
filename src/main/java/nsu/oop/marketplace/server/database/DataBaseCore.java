@@ -35,7 +35,7 @@ public class DataBaseCore implements DataBase {
                 case "Admin" -> userRole = MarketplaceProto.UserType.ADMINISTRATOR;
                 case "Manager" -> userRole = MarketplaceProto.UserType.MANAGER;
             }
-            return new LogInData(user.getUsersByUserId().getId(), userRole, user.getUsersByUserId().getFirstName(), user.getUsersByUserId().getFirstName());
+            return new LogInData(user.getUsersByUserId().getId(), userRole, user.getUsersByUserId().getFirstName(), user.getUsersByUserId().getLastName());
         }
 
         return new LogInData(getNonAuthUserId(), MarketplaceProto.UserType.UNAUTHENTICATED, "Unknown", "Unknown");
@@ -58,7 +58,7 @@ public class DataBaseCore implements DataBase {
         List<TasksEntity> tasks = TasksOp.getTaskById(userId);
         for (TasksEntity task : tasks) {
             String fullUserName = task.getUsersByUserId().getFirstName() + " " + task.getUsersByUserId().getLastName();
-            MarketplaceProto.DBFullTask addTask = MessageBuilder.dbFullTaskBuilder(task.getId(), fullUserName, task.getTaskText());
+            MarketplaceProto.DBFullTask addTask = MessageBuilder.dbFullTaskBuilder(task.getId(), fullUserName, task.getTaskText(), task.getDone());
             taskList.add(addTask);
         }
         return MessageBuilder.taskTableBuilder(taskList);

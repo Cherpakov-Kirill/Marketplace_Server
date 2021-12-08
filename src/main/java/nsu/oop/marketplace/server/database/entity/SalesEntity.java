@@ -53,7 +53,7 @@ public class SalesEntity {
         this.amount = amount;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     public ProductsEntity getProductsByProductId() {
         return productsByProductId;
