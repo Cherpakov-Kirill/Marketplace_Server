@@ -31,7 +31,7 @@ public class ChangesOp {
         session.close();
     }
 
-    public static void getQuery() {
+    public static List<ChangesEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<ChangesEntity> changes;
@@ -40,11 +40,8 @@ public class ChangesOp {
         query.addEntity(ChangesEntity.class);
         changes = query.list();
 
-        System.out.println("____________Simple query from table changes____________");
-        for (ChangesEntity change : changes) {
-            System.out.println(change.toString());
-        }
-
         session.close();
+
+        return changes;
     }
 }

@@ -29,7 +29,7 @@ public class LogHistoryOp {
         session.close();
     }
 
-    public static void getQuery() {
+    public static List<LogHistoryEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<LogHistoryEntity> logs;
@@ -38,11 +38,8 @@ public class LogHistoryOp {
         query.addEntity(LogHistoryEntity.class);
         logs = query.list();
 
-        System.out.println("____________Simple query from table log_history____________");
-        for (LogHistoryEntity log : logs) {
-            System.out.println(log.toString());
-        }
-
         session.close();
+
+        return logs;
     }
 }

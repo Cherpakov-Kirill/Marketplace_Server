@@ -30,7 +30,7 @@ public class SalesOp {
         session.close();
     }
 
-    public static void getQuery() {
+    public static List<SalesEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<SalesEntity> sales;
@@ -39,11 +39,8 @@ public class SalesOp {
         query.addEntity(SalesEntity.class);
         sales = query.list();
 
-        System.out.println("____________Simple query from table sales____________");
-        for (SalesEntity sale : sales) {
-            System.out.println(sale.toString());
-        }
-
         session.close();
+
+        return sales;
     }
 }

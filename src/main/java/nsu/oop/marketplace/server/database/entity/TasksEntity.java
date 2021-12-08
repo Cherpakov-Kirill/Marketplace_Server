@@ -8,6 +8,7 @@ public class TasksEntity {
 
     private int id;
     private String taskText;
+    private boolean done;
     private UsersEntity usersByUserId;
 
     @Id
@@ -30,6 +31,16 @@ public class TasksEntity {
         this.taskText = taskText;
     }
 
+    @Basic
+    @Column(name = "done", nullable = false)
+    public boolean getDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     public UsersEntity getUsersByUserId() {
@@ -42,6 +53,6 @@ public class TasksEntity {
 
     @Override
     public String toString(){
-        return id + " - " + taskText + " - " + usersByUserId.getFirstName() + " - " + usersByUserId.getLastName() + " - ";
+        return id + " - " + taskText + " - " + usersByUserId.getFirstName() + " - " + usersByUserId.getLastName() + " - " + done + " - ";
     }
 }
