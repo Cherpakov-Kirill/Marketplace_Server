@@ -6,4 +6,12 @@ public interface DataBase {
     LogInData logIn(String name, String password);
 
     MarketplaceProto.Message.DBResponse getAllProductTable();
+
+    MarketplaceProto.Message.DBResponse getAllTaskTable(int userId);
+
+    MarketplaceProto.Message.DBResponse getAllChangesTable();
+
+    MarketplaceProto.Message.DBResponse getAllSalesTable();
+
+    MarketplaceProto.Message.DBResponse getAllLogTable();
 }

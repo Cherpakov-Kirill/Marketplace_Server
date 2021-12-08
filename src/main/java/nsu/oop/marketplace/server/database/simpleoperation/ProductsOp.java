@@ -25,7 +25,7 @@ public class ProductsOp {
         session.close();
     }
 
-    public static void getQuery() {
+    public static List<ProductsEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<ProductsEntity> products;
@@ -40,6 +40,8 @@ public class ProductsOp {
         }
 
         session.close();
+
+        return products;
     }
 
     public static ProductsEntity getProductById(int id) {

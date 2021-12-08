@@ -10,21 +10,18 @@ import java.util.List;
 
 public class TasksOp {
 
-    public static void addNewTask(int userId, String userName, String userLastName, String role, String task) {
+    public static void addNewTask(int userId, String task, boolean done) {
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
-        UsersEntity user = new UsersEntity();
-        user.setFirstName(userName);
-        user.setLastName(userLastName);
-        user.setRole(role);
-        user.setId(userId);
+        UsersEntity user = UserOp.getUserById(userId);
 
         session.beginTransaction();
 
         TasksEntity newTask = new TasksEntity();
         newTask.setTaskText(task);
         newTask.setUsersByUserId(user);
+        newTask.setDone(done);
 
         session.saveOrUpdate(newTask);
 
@@ -34,7 +31,7 @@ public class TasksOp {
         session.close();
     }
 
-    public static void getQuery(){
+    public static List<TasksEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<TasksEntity> tasks;
@@ -49,14 +46,50 @@ public class TasksOp {
         }
 
         session.close();
+
+        return tasks;
     }
 
-    public static void updateTask(String task){
+    public static List<TasksEntity> getTaskById(int userId) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        List<TasksEntity> tasks;
+        UsersEntity user = UserOp.getUserById(userId);
+
+        NativeQuery query = null;
+
+        if (user.getRole().equals("Manager")) {
+            query = session.createSQLQuery("SELECT * FROM tasks WHERE user_id = '" + userId + "'");
+        } else {
+            query = query = session.createSQLQuery("SELECT * FROM tasks");
+        }
+        query.addEntity(TasksEntity.class);
+        tasks = query.list();
+
+        session.close();
+
+        return tasks;
+    }
+
+    public static void updateTask(String task) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
 
         NativeQuery query = session.createSQLQuery("UPDATE tasks SET task_text = task WHERE id = '1'");
+        query.executeUpdate();
+
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    public static void setTaskDone(int taskId) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        NativeQuery query = session.createSQLQuery("UPDATE tasks SET actio WHERE id = '1'");
         query.executeUpdate();
 
         session.getTransaction().commit();

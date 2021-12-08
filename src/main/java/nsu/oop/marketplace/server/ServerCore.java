@@ -48,7 +48,6 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
         System.err.println("Received error-message from node number " + senderId + " Message: " + error);
     }
 
-
     //Chat methods
     @Override
     public void receiveChatMsg(MarketplaceProto.Message.ChatMessage chatMessage, int id) {
@@ -60,6 +59,10 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
         MarketplaceProto.Message.DBResponse response = null;
         switch (dbRequest.getTypeCase()) {
             case PRODUCT_TABLE -> response = dataBase.getAllProductTable();
+            case TASK_TABLE -> response = dataBase.getAllTaskTable(id);
+            case CHANGE_TABLE -> response = dataBase.getAllChangesTable();
+            case SALE_TABLE -> response = dataBase.getAllSalesTable();
+            case LOG_TABLE -> response = dataBase.getAllLogTable();
         }
         if(response != null) users.sendDBResponseMessage(response, id);
     }
