@@ -58,13 +58,17 @@ public class TasksOp {
 
         NativeQuery query = null;
 
-        if (user.getRole().equals("Manager")) {
-            query = session.createSQLQuery("SELECT * FROM tasks WHERE user_id = '" + userId + "'");
+        if (user.getRole().equals("Director")) {
+            query = session.createSQLQuery("SELECT * FROM tasks");
         } else {
-            query = query = session.createSQLQuery("SELECT * FROM tasks");
+            query = session.createSQLQuery("SELECT * FROM tasks WHERE user_id = '" + userId + "' AND done = false");
         }
         query.addEntity(TasksEntity.class);
         tasks = query.list();
+
+        for (TasksEntity task : tasks){
+            System.out.println(task);
+        }
 
         session.close();
 
