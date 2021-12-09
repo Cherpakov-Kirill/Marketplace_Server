@@ -63,6 +63,8 @@ public class ServerCore implements InetControllerListener, UsersControllerListen
             case CHANGE_TABLE -> response = dataBase.getAllChangesTable();
             case SALE_TABLE -> response = dataBase.getAllSalesTable();
             case LOG_TABLE -> response = dataBase.getAllLogTable();
+            case COMPLETE_TASK -> response = dataBase.completeTask(dbRequest.getCompleteTask().getId());
+            case ACCEPT_CHANGE -> response = dataBase.acceptChange(dbRequest.getAcceptChange().getId());
         }
         if(response != null) users.sendDBResponseMessage(response, id);
     }

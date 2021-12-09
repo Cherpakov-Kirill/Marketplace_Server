@@ -49,7 +49,7 @@ public class DataBaseCore implements DataBase {
             MarketplaceProto.DBFullProduct addProduct = MessageBuilder.dbFullProductBuilder(product.getId(), product.getName(), Double.toString(product.getPrice()), product.getDescription());
             productList.add(addProduct);
         }
-        return MessageBuilder.productTableBuilder(productList);
+        return MessageBuilder.productTableResponseBuilder(productList);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class DataBaseCore implements DataBase {
             MarketplaceProto.DBFullTask addTask = MessageBuilder.dbFullTaskBuilder(task.getId(), fullUserName, task.getTaskText(), task.getDone());
             taskList.add(addTask);
         }
-        return MessageBuilder.taskTableBuilder(taskList);
+        return MessageBuilder.taskTableResponseBuilder(taskList);
     }
 
     @Override
@@ -74,32 +74,45 @@ public class DataBaseCore implements DataBase {
             MarketplaceProto.DBFullChanges addChange = MessageBuilder.dbFullChangeBuilder(change.getId(), productName, change.getChangeType(), change.getNewValue(), fullUserName);
             changesList.add(addChange);
         }
-        return MessageBuilder.changeTableBuilder(changesList);
+        return MessageBuilder.changeTableResponseBuilder(changesList);
     }
 
     @Override
-    public MarketplaceProto.Message.DBResponse getAllSalesTable(){
+    public MarketplaceProto.Message.DBResponse getAllSalesTable() {
         List<MarketplaceProto.DBFullSales> salesList = new ArrayList<>();
         List<SalesEntity> sales = SalesOp.getQuery();
-        for(SalesEntity sale : sales){
+        for (SalesEntity sale : sales) {
             String productName = sale.getProductsByProductId().getName();
             String date = sale.getDate().toString();
             MarketplaceProto.DBFullSales addSale = MessageBuilder.dbFullSaleBuilder(sale.getId(), productName, date, Integer.toString(sale.getQuantity()), Double.toString(sale.getAmount()));
             salesList.add(addSale);
         }
-        return MessageBuilder.salesTableBuilder(salesList);
+        return MessageBuilder.salesTableResponseBuilder(salesList);
     }
 
     @Override
-    public MarketplaceProto.Message.DBResponse getAllLogTable(){
+    public MarketplaceProto.Message.DBResponse getAllLogTable() {
         List<MarketplaceProto.DBFullLog> logsList = new ArrayList<>();
         List<LogHistoryEntity> logs = LogHistoryOp.getQuery();
-        for(LogHistoryEntity log : logs){
+        for (LogHistoryEntity log : logs) {
             String fullUserName = log.getUsersByUserId().getFirstName() + " " + log.getUsersByUserId().getLastName();
             MarketplaceProto.DBFullLog addLog = MessageBuilder.dbFullLogBuilder(fullUserName, log.getLogDescription(), log.getActionType());
             logsList.add(addLog);
         }
-        return MessageBuilder.logTableBuilder(logsList);
+        return MessageBuilder.logTableResponseBuilder(logsList);
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse completeTask(int id) {
+        System.out.println("Complete id = " + id);
+
+        return MessageBuilder.completeTaskResponseBuilder(id, true, "");
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse acceptChange(int id) {
+        System.out.println("Accept id = " + id);
+        return MessageBuilder.acceptChangeResponseBuilder(id, true, "");
     }
 
 }

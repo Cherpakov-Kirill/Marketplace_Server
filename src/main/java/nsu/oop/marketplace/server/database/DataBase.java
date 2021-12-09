@@ -14,4 +14,8 @@ public interface DataBase {
     MarketplaceProto.Message.DBResponse getAllSalesTable();
 
     MarketplaceProto.Message.DBResponse getAllLogTable();
+
+    MarketplaceProto.Message.DBResponse completeTask(int id);
+
+    MarketplaceProto.Message.DBResponse acceptChange(int id);
 }
