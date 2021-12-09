@@ -105,13 +105,14 @@ public class DataBaseCore implements DataBase {
     @Override
     public MarketplaceProto.Message.DBResponse completeTask(int id) {
         System.out.println("Complete id = " + id);
-
+        TasksOp.setTaskDone(id);
         return MessageBuilder.completeTaskResponseBuilder(id, true, "");
     }
 
     @Override
     public MarketplaceProto.Message.DBResponse acceptChange(int id) {
         System.out.println("Accept id = " + id);
+        ChangesOp.acceptChange(id);
         return MessageBuilder.acceptChangeResponseBuilder(id, true, "");
     }
 

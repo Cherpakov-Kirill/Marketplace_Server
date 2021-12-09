@@ -34,11 +34,6 @@ public class ProductsOp {
         query.addEntity(ProductsEntity.class);
         products = query.list();
 
-        System.out.println("____________Simple query from table products____________");
-        for (ProductsEntity product : products) {
-            System.out.println(product.toString());
-        }
-
         session.close();
 
         return products;
@@ -64,12 +59,59 @@ public class ProductsOp {
         return products.get(0);
     }
 
-    public static void updateUser() {
+    public static void updateProductByName(double price, String name) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
 
-        NativeQuery query = session.createSQLQuery("UPDATE products SET price = '5.75' WHERE last_name = 'Furminator'");
+        NativeQuery query = session.createSQLQuery("UPDATE products SET price = :price WHERE name = :name");
+        query.setParameter("price", price);
+        query.setParameter("name", name);
+        query.executeUpdate();
+
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    public static void updateProductPriceById(double price, int id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        NativeQuery query = session.createSQLQuery("UPDATE products SET price = :price WHERE id = :id");
+        query.setParameter("price", price);
+        query.setParameter("id", id);
+        query.executeUpdate();
+
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    public static void updateProductNameById(String name, int id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        NativeQuery query = session.createSQLQuery("UPDATE products SET name = :name WHERE id = :id");
+        query.setParameter("name", name);
+        query.setParameter("id", id);
+        query.executeUpdate();
+
+        session.getTransaction().commit();
+
+        session.close();
+    }
+
+    public static void updateProductDescriptionById(String description, int id) {
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+        session.beginTransaction();
+
+        NativeQuery query = session.createSQLQuery("UPDATE products SET description = :description WHERE id = :id");
+        query.setParameter("description", description);
+        query.setParameter("id", id);
         query.executeUpdate();
 
         session.getTransaction().commit();

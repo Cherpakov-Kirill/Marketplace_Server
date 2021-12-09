@@ -48,18 +48,14 @@ public class UserOp {
 
         List<UsersEntity> users;
 
-        NativeQuery query = session.createSQLQuery("SELECT * FROM users WHERE id = '" + id + "'");
+        NativeQuery query = session.createSQLQuery("SELECT * FROM users WHERE id = :id");
+        query.setParameter("id", id);
         query.addEntity(UsersEntity.class);
         users = query.list();
 
-        System.out.println("Get user by user id: " + id);
-        for (UsersEntity user : users) {
-            System.out.println(user.toString());
-        }
-
         session.close();
 
-        if(users.size() == 0) {
+        if (users.size() == 0) {
             UsersEntity usersEntity = new UsersEntity();
             usersEntity.setId(-1);
             return usersEntity;
@@ -68,12 +64,14 @@ public class UserOp {
         return users.get(0);
     }
 
-    public static void updateUser() {
+    public static void updateUser(String firstName, String lastName) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
 
-        NativeQuery query = session.createSQLQuery("UPDATE users SET first_name = 'Dementor' WHERE last_name = 'Kogalenok'");
+        NativeQuery query = session.createSQLQuery("UPDATE users SET first_name = :firstName WHERE last_name = :lastName");
+        query.setParameter("firstName", firstName);
+        query.setParameter("lastName", lastName);
         query.executeUpdate();
 
         session.getTransaction().commit();

@@ -33,7 +33,8 @@ public class LogInInfoOp {
 
         List<LoginInfoEntity> users;
 
-        NativeQuery query = session.createSQLQuery("SELECT * FROM login_info WHERE login = '" + login + "'");
+        NativeQuery query = session.createSQLQuery("SELECT * FROM login_info WHERE login = :login");
+        query.setParameter("login", login);
         query.addEntity(LoginInfoEntity.class);
         users = query.list();
 
