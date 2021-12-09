@@ -61,14 +61,11 @@ public class TasksOp {
         if (user.getRole().equals("Director")) {
             query = session.createSQLQuery("SELECT * FROM tasks");
         } else {
-            query = session.createSQLQuery("SELECT * FROM tasks WHERE user_id = '" + userId + "' AND done = false");
+            query = session.createSQLQuery("SELECT * FROM tasks WHERE user_id = :userId AND done = false");
+            query.setParameter("userId", userId);
         }
         query.addEntity(TasksEntity.class);
         tasks = query.list();
-
-        for (TasksEntity task : tasks){
-            System.out.println(task);
-        }
 
         session.close();
 
@@ -93,7 +90,7 @@ public class TasksOp {
 
         session.beginTransaction();
 
-        NativeQuery query = session.createSQLQuery("UPDATE tasks SET actio WHERE id = '1'");
+        NativeQuery query = session.createSQLQuery("UPDATE tasks SET done = true WHERE id = '" + taskId + "'");
         query.executeUpdate();
 
         session.getTransaction().commit();
