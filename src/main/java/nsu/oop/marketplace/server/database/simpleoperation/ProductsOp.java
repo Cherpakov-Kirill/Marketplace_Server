@@ -59,21 +59,6 @@ public class ProductsOp {
         return products.get(0);
     }
 
-    public static void updateProductByName(double price, String name) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-
-        session.beginTransaction();
-
-        NativeQuery query = session.createSQLQuery("UPDATE products SET price = :price WHERE name = :name");
-        query.setParameter("price", price);
-        query.setParameter("name", name);
-        query.executeUpdate();
-
-        session.getTransaction().commit();
-
-        session.close();
-    }
-
     public static void updateProductPriceById(double price, int id) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
@@ -117,6 +102,24 @@ public class ProductsOp {
         session.getTransaction().commit();
 
         session.close();
+    }
+
+    private static boolean checkIdentityProduct(String name) {
+        List<ProductsEntity> products = getQuery();
+        for (ProductsEntity product : products) {
+            if (product.getName().equals(name)) return false;
+        }
+        return true;
+    }
+
+    public static boolean addNewProductByRequest(String name, String price, String description) {
+        if (!checkIdentityProduct(name)) return false;
+
+        double productPrice = Double.parseDouble(price);
+
+        addNewProduct(name, productPrice, description);
+
+        return true;
     }
 
 }

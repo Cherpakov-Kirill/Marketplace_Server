@@ -40,11 +40,6 @@ public class TasksOp {
         query.addEntity(TasksEntity.class);
         tasks = query.list();
 
-        System.out.println("____________Simple query from table tasks____________");
-        for (TasksEntity task : tasks) {
-            System.out.println(task.toString());
-        }
-
         session.close();
 
         return tasks;
@@ -70,19 +65,6 @@ public class TasksOp {
         session.close();
 
         return tasks;
-    }
-
-    public static void updateTask(String task) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-
-        session.beginTransaction();
-
-        NativeQuery query = session.createSQLQuery("UPDATE tasks SET task_text = task WHERE id = '1'");
-        query.executeUpdate();
-
-        session.getTransaction().commit();
-
-        session.close();
     }
 
     public static void setTaskDone(int taskId) {

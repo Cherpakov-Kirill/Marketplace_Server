@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserOp {
 
-    public static void addNewUser(String firstName, String lastName, String role) {
+    public static UsersEntity addNewUser(String firstName, String lastName, String role) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
@@ -24,9 +24,11 @@ public class UserOp {
         session.getTransaction().commit();
 
         session.close();
+
+        return user;
     }
 
-    public static void getQuery() {
+    public static List<UsersEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<UsersEntity> users;
@@ -35,12 +37,9 @@ public class UserOp {
         query.addEntity(UsersEntity.class);
         users = query.list();
 
-        System.out.println("____________Simple query from table users____________");
-        for (UsersEntity user : users) {
-            System.out.println(user.toString());
-        }
-
         session.close();
+
+        return users;
     }
 
     public static UsersEntity getUserById(int id) {
@@ -64,18 +63,39 @@ public class UserOp {
         return users.get(0);
     }
 
-    public static void updateUser(String firstName, String lastName) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+    private static UsersEntity getLastUser() {
+        List<UsersEntity> users = getQuery();
+        return users.get(users.size() - 1);
+    }
 
-        session.beginTransaction();
+    private static boolean checkIdentityLogin(String login) {
+        List<LoginInfoEntity> usersLogin = LogInInfoOp.getQuery();
 
-        NativeQuery query = session.createSQLQuery("UPDATE users SET first_name = :firstName WHERE last_name = :lastName");
-        query.setParameter("firstName", firstName);
-        query.setParameter("lastName", lastName);
-        query.executeUpdate();
+        for (LoginInfoEntity userLogin : usersLogin) {
+            if (userLogin.getLogin().equals(login)) {
+                return false;
+            }
+        }
 
-        session.getTransaction().commit();
+        return true;
+    }
 
-        session.close();
+    private static boolean checkRoleValid(String role) {
+        boolean validFlag = false;
+        switch (role) {
+            case "Manager", "Director", "Admin" -> validFlag = true;
+        }
+        return validFlag;
+    }
+
+    public static boolean addNewUserAndLoginInfo(String firstName, String lastName, String role, String login, String password) {
+        if (!checkIdentityLogin(login)) return false;
+        if (!checkRoleValid(role)) return false;
+
+        addNewUser(firstName, lastName, role);
+        UsersEntity user = getLastUser();
+        LogInInfoOp.addNewUserInfo(user.getId(), login, password);
+
+        return true;
     }
 }
