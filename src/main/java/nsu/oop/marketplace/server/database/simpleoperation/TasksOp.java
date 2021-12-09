@@ -90,7 +90,8 @@ public class TasksOp {
 
         session.beginTransaction();
 
-        NativeQuery query = session.createSQLQuery("UPDATE tasks SET done = true WHERE id = '" + taskId + "'");
+        NativeQuery query = session.createSQLQuery("UPDATE tasks SET done = true WHERE id = :id");
+        query.setParameter("id", taskId);
         query.executeUpdate();
 
         session.getTransaction().commit();
