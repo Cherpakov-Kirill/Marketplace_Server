@@ -48,7 +48,7 @@ public class LogInInfoOp {
         return users.get(0);
     }
 
-    public static void getQuery() {
+    public static List<LoginInfoEntity> getQuery() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         List<LoginInfoEntity> users;
@@ -57,12 +57,9 @@ public class LogInInfoOp {
         query.addEntity(LoginInfoEntity.class);
         users = query.list();
 
-        System.out.println("____________Simple query from table login_info____________");
-        for (LoginInfoEntity login : users) {
-            System.out.println(login.toString());
-        }
-
         session.close();
+
+        return users;
     }
 
 }

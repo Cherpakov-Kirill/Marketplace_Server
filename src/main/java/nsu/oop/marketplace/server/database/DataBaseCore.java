@@ -4,6 +4,7 @@ import nsu.oop.marketplace.inet.MarketplaceProto;
 import nsu.oop.marketplace.inet.messages.MessageBuilder;
 import nsu.oop.marketplace.server.database.entity.*;
 import nsu.oop.marketplace.server.database.simpleoperation.*;
+import org.jgroups.util.TimeScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +115,72 @@ public class DataBaseCore implements DataBase {
         System.out.println("Accept id = " + id);
         ChangesOp.acceptChange(id);
         return MessageBuilder.acceptChangeResponseBuilder(id, true, "");
+    }
+
+    public MarketplaceProto.Message.DBResponse checkSuccessOp(boolean successFlag) {
+        if (successFlag) {
+            return MessageBuilder.successfullyBuilder();
+        } else {
+            return MessageBuilder.unsuccessfullyBuilder();
+        }
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse addNewUser(MarketplaceProto.Message.DBRequest.AddNewUser userInfo) {
+        boolean successFlag = UserOp.addNewUserAndLoginInfo(userInfo.getFirstName(), userInfo.getSecondName(), userInfo.getRole(), userInfo.getLogin(), userInfo.getPassword());
+        return checkSuccessOp(successFlag);
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse addNewProduct(MarketplaceProto.Message.DBRequest.AddNewProduct productInfo) {
+        boolean successFlag = ProductsOp.addNewProductByRequest(productInfo.getName(), productInfo.getPrice(), productInfo.getDescription());
+        return checkSuccessOp(successFlag);
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse setNewTask(MarketplaceProto.Message.DBRequest.SetNewTask taskInfo) {
+        TasksOp.addNewTask(taskInfo.getUserId(), taskInfo.getTask(), false);
+        return MessageBuilder.successfullyBuilder();
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse getUserList() {
+        List<UsersEntity> users = UserOp.getQuery();
+        List<MarketplaceProto.DBUser> userList = new ArrayList<>();
+        for (UsersEntity user : users) {
+            String fullName = user.getFirstName() + " " + user.getLastName();
+            int userId = user.getId();
+            MarketplaceProto.DBUser addUser = MessageBuilder.dbUserBuilder(userId, fullName);
+            userList.add(addUser);
+        }
+        return MessageBuilder.userListBuilder(userList);
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse getProductList() {
+        List<ProductsEntity> products = ProductsOp.getQuery();
+        List<MarketplaceProto.DBProduct> productList = new ArrayList<>();
+        for (ProductsEntity product : products) {
+            int productId = product.getId();
+            MarketplaceProto.DBProduct addProduct = MessageBuilder.dbProductBuilder(productId, product.getName());
+            productList.add(addProduct);
+        }
+        return MessageBuilder.productListBuilder(productList);
+    }
+
+    @Override
+    public MarketplaceProto.Message.DBResponse changeProductInfo(MarketplaceProto.Message.DBRequest.ChangeProductInfo newProductInfo, int userId) {
+        MarketplaceProto.DBFullProduct newProduct = newProductInfo.getProduct();
+        ProductsEntity product = ProductsOp.getProductById(newProduct.getId());
+        boolean changeNameFlag = product.getName().equals(newProduct.getName());
+        double newPrice = Double.parseDouble(newProduct.getPrice());
+        boolean changePriceFlag = product.getPrice() == newPrice;
+        boolean changeDescFlag = product.getDescription().equals(newProduct.getDescription());
+        if (changeNameFlag) ChangesOp.addNewChanges(userId, product.getId(), "name", newProduct.getName());
+        if (changePriceFlag) ChangesOp.addNewChanges(userId, product.getId(), "price", newProduct.getPrice());
+        if (changeDescFlag)
+            ChangesOp.addNewChanges(userId, product.getId(), "description", newProduct.getDescription());
+        return MessageBuilder.successfullyBuilder();
     }
 
 }
