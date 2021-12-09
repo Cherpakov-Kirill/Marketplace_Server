@@ -176,9 +176,9 @@ public class DataBaseCore implements DataBase {
         double newPrice = Double.parseDouble(newProduct.getPrice());
         boolean changePriceFlag = product.getPrice() == newPrice;
         boolean changeDescFlag = product.getDescription().equals(newProduct.getDescription());
-        if (changeNameFlag) ChangesOp.addNewChanges(userId, product.getId(), "name", newProduct.getName());
-        if (changePriceFlag) ChangesOp.addNewChanges(userId, product.getId(), "price", newProduct.getPrice());
-        if (changeDescFlag)
+        if (!changeNameFlag) ChangesOp.addNewChanges(userId, product.getId(), "name", newProduct.getName());
+        if (!changePriceFlag) ChangesOp.addNewChanges(userId, product.getId(), "price", newProduct.getPrice());
+        if (!changeDescFlag)
             ChangesOp.addNewChanges(userId, product.getId(), "description", newProduct.getDescription());
         return MessageBuilder.successfullyBuilder();
     }
