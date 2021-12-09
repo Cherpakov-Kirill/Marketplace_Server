@@ -33,7 +33,7 @@ CREATE TABLE `changes` (
   KEY `changes_user_id_users_id_foreign` (`user_id`),
   CONSTRAINT `changes_product_id_products_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `changes_user_id_users_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `changes` (
 
 LOCK TABLES `changes` WRITE;
 /*!40000 ALTER TABLE `changes` DISABLE KEYS */;
-INSERT INTO `changes` VALUES (1,2,'Change price','26.12',1),(2,3,'Change name','Big Furminator',3);
+INSERT INTO `changes` VALUES (2,3,'name','Big Furminator',3),(3,1,'description','Exclusive brush for pet',1),(4,2,'description','The best price on Alibaba',2),(5,3,'name','Pit mat',3);
 /*!40000 ALTER TABLE `changes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +124,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Furminator',10.1000,'Special brush for pets'),(2,'Kid Plane',3.7600,'Foam airplane for children'),(3,'Fire pit mat',15.8900,'Fire pit mat for fireplace');
+INSERT INTO `products` VALUES (1,'Furminator',10.1000,'Special brush for pets'),(2,'Kid Plane',26.1200,'Foam airplane for children'),(3,'Big Furminator',15.8900,'Fire pit mat for fireplace');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,10 +168,11 @@ CREATE TABLE `tasks` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `task_text` varchar(255) NOT NULL,
+  `done` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `tasks_user_id_users_id_foreign` (`user_id`),
   CONSTRAINT `tasks_user_id_users_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +181,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,1,'Find 10 product from category \'kids\''),(2,2,'Create user interface'),(3,2,'Add char to project');
+INSERT INTO `tasks` VALUES (1,1,'Find 10 product from category \'kids\'',1),(2,2,'Create user interface',1),(3,2,'Add char to project',0),(4,3,'Famous task!',1),(5,1,'Second test task',0);
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-07 17:39:41
+-- Dump completed on 2021-12-09 17:44:24
