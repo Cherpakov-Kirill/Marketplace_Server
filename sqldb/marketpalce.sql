@@ -98,7 +98,7 @@ CREATE TABLE `login_info` (
 
 LOCK TABLES `login_info` WRITE;
 /*!40000 ALTER TABLE `login_info` DISABLE KEYS */;
-INSERT INTO `login_info` VALUES (1,1,'Dementor','qwerty123'),(2,2,'Kirill','1234'),(3,3,'Dashka','meleshenko'),(4,4,'Kate','katya123');
+INSERT INTO `login_info` VALUES (1,1,'Dementor','qwerty123'),(2,2,'Kirill','1234');
 /*!40000 ALTER TABLE `login_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
